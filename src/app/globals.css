@@ -1,0 +1,326 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --bg: #f3f6ff;
+  --bg-2: #e6ecff;
+  --fg: #081033;
+  --muted: #4a5885;
+  --surface: rgba(255, 255, 255, 0.62);
+  --surface-solid: #ffffff;
+  --line: rgba(26, 60, 207, 0.14);
+  --brand: #1a3ccf;
+  --brand-2: #0f2594;
+  --accent: #e4202b;
+  --glow: rgba(26, 60, 207, 0.28);
+  --shadow: 0 20px 60px -20px rgba(15, 37, 148, 0.35);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #040a1f;
+  --bg-2: #07123a;
+  --fg: #eaf0ff;
+  --muted: #9aa8d6;
+  --surface: rgba(14, 26, 74, 0.5);
+  --surface-solid: #0a1544;
+  --line: rgba(120, 150, 255, 0.18);
+  --brand: #5b81ff;
+  --brand-2: #1a3ccf;
+  --accent: #ff4650;
+  --glow: rgba(91, 129, 255, 0.35);
+  --shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.8);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-accent: var(--accent);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+}
+
+html {
+  background: var(--bg);
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+.font-display {
+  font-family: var(--font-display), Impact, sans-serif;
+}
+
+.display {
+  font-family: var(--font-display), Impact, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.92;
+}
+
+@layer components {
+/* Glass */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+  box-shadow: var(--shadow);
+}
+
+/* Buttons */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.95rem 1.6rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  transition: box-shadow 0.3s, background-color 0.3s, transform 0.3s;
+  will-change: transform;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), #b5121c);
+  color: #fff;
+  box-shadow: 0 12px 34px -10px color-mix(in oklab, var(--accent) 80%, transparent);
+}
+.btn-primary:hover {
+  box-shadow: 0 16px 44px -8px color-mix(in oklab, var(--accent) 95%, transparent);
+}
+.btn-brand {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff;
+  box-shadow: 0 12px 34px -10px var(--glow);
+}
+.btn-ghost {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--fg);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.btn-ghost:hover {
+  border-color: var(--brand);
+}
+
+/* Spotlight cards */
+.spot {
+  position: relative;
+  overflow: hidden;
+}
+.spot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--brand) 26%, transparent),
+    transparent 62%
+  );
+}
+.spot:hover::before {
+  opacity: 1;
+}
+
+/* Section helpers */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+}
+}
+
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--brand) 70%, transparent);
+}
+
+@layer components {
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.w > .wi {
+  display: inline-block;
+  will-change: transform;
+}
+}
+
+/* Initial hidden states (only when JS is on and motion allowed) */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(44px);
+  }
+  html.js [data-hero] {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: showFallback 0s 6s forwards;
+  }
+}
+@keyframes showFallback {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Float */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.float {
+  animation: float 5s ease-in-out infinite;
+}
+.float-slow {
+  animation: float 7s ease-in-out infinite reverse;
+}
+
+/* Radar */
+@keyframes sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.radar-sweep {
+  transform-origin: 250px 250px;
+  animation: sweep 6s linear infinite;
+}
+@keyframes ping {
+  0% {
+    r: 4;
+    opacity: 0.9;
+  }
+  100% {
+    r: 20;
+    opacity: 0;
+  }
+}
+.ping {
+  animation: ping 2.4s ease-out infinite;
+}
+
+/* Preloader fallback so it never traps the page */
+.preloader {
+  animation: preloaderOut 0s 6s forwards;
+}
+@keyframes preloaderOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Theme transition */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none !important;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  html.js body.has-cursor,
+  html.js body.has-cursor a,
+  html.js body.has-cursor button {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .float,
+  .float-slow,
+  .radar-sweep,
+  .ping {
+    animation: none;
+  }
+}
